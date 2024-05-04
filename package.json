@@ -1,0 +1,22 @@
+{
+  "name": "jo_inf_653_back_end_final",
+  "version": "1.0.0",
+  "description": "The final project involves building a Node.js REST API for US States data using Express and MongoDB. This project aims to create a robust API that provides various endpoints for accessing state information, including fun facts, capitals, nicknames, populations, and admission dates.",
+  "main": "ExpressServer.js",
+  "scripts": {
+    "start": "nodemon ExpressServer.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeramee",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.1",
+    "nodemon": "^2.0.22",
+    "uuid": "^9.0.0"
+  }
+}
