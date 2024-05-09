@@ -69,4 +69,3 @@ The final project involves building a Node.js REST API for US States data using 
 ### Acknowledgments
 
 This project was completed as part of the INF653 course. Special thanks to the instructor for guidance and support.
-
