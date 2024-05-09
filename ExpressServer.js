@@ -8,8 +8,8 @@ const connectDB = require("./config/dbConfig"); // Import the database connectio
 // Import the stateController router
 const stateController = require("./controllers/stateController");
 
-// Use the stateController router for all routes starting with "/states"
-app.use("/states", stateController);
+// Use the stateController router for all routes starting with "/"
+app.use("/", stateController);
 
 // Connect to MongoDB
 connectDB()
