@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router(); // Use Router instead of creating a new app instance
 const State = require("../models/State");
 
+
 router.get('/', async (req, res) => {
   const { contig } = req.query;
 
@@ -30,22 +31,26 @@ router.get('/', async (req, res) => {
 
 // Get all states or states based on contig parameter
 router.get("/states", async (req, res) => {
+  const { contig } = req.query;
+
   try {
-    const contig = req.query.contig;
+    console.log('Received request to /states/');
+    console.log('contig:', contig);
 
     let states;
-    if (contig === 'true') {
-      states = await State.find({ contig: true });
-    } else if (contig === 'false') {
-      states = await State.find({ contig: false });
+    if (contig === 'false') {
+      // Include only Alaska (AK) and Hawaii (HI)
+      states = await State.find({ stateCode: { $in: ['AK', 'HI'] } });
     } else {
-      states = await State.find();
+      // Include all other states (excluding AK and HI)
+      states = await State.find({ stateCode: { $nin: ['AK', 'HI'] } });
     }
 
-    res.status(200).json(states);
+    console.log('Retrieved states:', states);
+    res.json(states);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
