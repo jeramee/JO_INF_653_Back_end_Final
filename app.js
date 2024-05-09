@@ -6,7 +6,7 @@ const stateController = require("./controllers/stateController"); // Adjust the 
 // Other middleware and configurations...
 
 // Use the state controller
-app.use("/api", stateController); // You can choose any base path (e.g., "/api/states")
+app.use("/", stateController); // You can choose any base path (e.g., "/api/states")
 
 // Start the server
 const port = process.env.PORT || 3000;

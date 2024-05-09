@@ -10,15 +10,19 @@ const statesData = {
 
 app.get('/states/', (req, res) => {
   const { contig } = req.query;
-  let data = statesData;
 
-  if (contig === 'true') {
-    data = filterContiguousStates(data);
-  } else if (contig === 'false') {
-    data = filterNonContiguousStates(data);
+  // Assuming statesData is an object containing state data
+  const filteredData = {};
+
+  for (const code in statesData) {
+    if (code === 'AK' || code === 'HI') {
+      filteredData[code] = statesData[code];
+    } else if (contig === 'true') {
+      filteredData[code] = statesData[code];
+    }
   }
 
-  res.json(data);
+  res.json(filteredData);
 });
 
 app.get('/states/:state', (req, res) => {
