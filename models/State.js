@@ -30,7 +30,8 @@ const stateSchema = new mongoose.Schema({
     landscape_background_url: String,
     skyline_background_url: String,
     twitter_url: String,
-    facebook_url: String
+    facebook_url: String,
+    funfacts: [String]
 });
 
 // Define the model for the "states" collection
