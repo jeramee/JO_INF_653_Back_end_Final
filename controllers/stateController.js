@@ -162,4 +162,92 @@ router.get('/states/:state/admission', async (req, res) => {
   }
 });
 
+// Handle POST requests to add fun facts
+router.post('/states/:state/funfact', async (req, res) => {
+  const { state } = req.params;
+  const { funfacts } = req.body;
+
+  try {
+    // Find the state document
+    let stateData = await State.findOne({ code: { $regex: new RegExp(`^${state}$`, 'i') } });
+    if (!stateData) {
+      return res.status(404).send('State not found');
+    }
+
+    // Append new fun facts to existing ones
+    stateData.funfacts = stateData.funfacts ? [...stateData.funfacts, ...funfacts] : funfacts;
+
+    // Save the updated state document
+    await stateData.save();
+
+    res.json(stateData.funfacts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Handle PATCH requests to update fun facts
+router.patch('/states/:state/funfact', async (req, res) => {
+  const { state } = req.params;
+  const { funfacts } = req.body;
+
+  try {
+    // Find the state document
+    let stateData = await State.findOne({ code: { $regex: new RegExp(`^${state}$`, 'i') } });
+    if (!stateData) {
+      return res.status(404).send('State not found');
+    }
+
+    // Replace existing fun facts with new ones
+    stateData.funfacts = funfacts;
+
+    // Save the updated state document
+    await stateData.save();
+
+    res.json(stateData.funfacts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/states/:state/funfact', async (req, res) => {
+  const { state } = req.params;
+  const { index } = req.body;
+
+  try {
+    // Find the state data based on the state code
+    const stateData = await State.findOne({ code: { $regex: new RegExp(`^${state}$`, 'i') } });
+    
+    if (!stateData) {
+      return res.status(404).send('State not found');
+    }
+
+    // Check if index is provided in the request body
+    if (!index && index !== 0) {
+      return res.status(400).send('Index not provided or invalid');
+    }
+
+    // Adjust index to zero-based
+    const adjustedIndex = parseInt(index) - 1;
+
+    // Remove the fun fact at the specified index
+    if (adjustedIndex < 0 || adjustedIndex >= stateData.funfacts.length) {
+      return res.status(400).send('Invalid index');
+    }
+
+    stateData.funfacts.splice(adjustedIndex, 1);
+
+    // Save the updated state data
+    await stateData.save();
+
+    res.json({ message: 'Fun fact removed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 module.exports = router; // Export the router instead of starting the server

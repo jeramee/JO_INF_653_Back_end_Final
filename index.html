@@ -1,30 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Final Project</title>
+        <style>
+            h1 {
+                font-size: 50px;
+            }
+        </style>
+        <h1>Final Project</h1>
+    </head>
+    <body>
+        <div id="content"></div>
+    
+        <script>
+            fetch('README.md')
+                .then(response => response.text())
+                .then(text => {
+                    // Convert markdown to HTML
+                    const html = marked(text);
+                    // Insert into div
+                    document.getElementById('content').innerHTML = html;
+                });
+        </script>
+    </body>    
+<body>
+    <pre id="content"></pre>
+</body>
+</html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation</title>
-</head>
-<body>
-    <header>
-        <h1>API Documentation</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <body>
+    <head>
+        <h2>US States API</h2>
+    </head>
+    <body>
+        <form>
+            <div><p>The US States API is a RESTful API built using Node.js, Express, and MongoDB to provide access to state data and fun facts about US states. The documentation includes setup, usage, and endpoints. The final project aims to create a robust API for US States data using Express and MongoDB, offering various endpoints for accessing state information such as fun facts, capitals, nicknames, populations, and admission dates. The README.md file serves as documentation for the API's setup, usage, and endpoints.</p></div>
+        </form>
+    </body>
+    <br>
     </header>
     <main>
         <section id="endpoints">
             <h2>API Endpoints</h2>
+                <head>
+                    <title>Large Colored Text Input Box</title>
+                </head>
+                <body>
+                    <form>
+                        <label for="largeColorInput">Enter URL:</label><br>
+                        <input type="text" id="largeColorInput" name="largeColorInput" style="width: 500px; height: 100px; background-color: #a0cbda;"><br>
+                    </form>
+                </body>
             <!-- Add subsections for each endpoint -->
         </section>
+       <br>
         <section id="parameters">
             <h2>Request Parameters</h2>
+                <head>
+                    <title>State and Fun Facts Form</title>
+                </head>
+                <body>
+                    <form>
+                        <label for="state">State:</label><br>
+                        <input type="text" id="state" name="state"><br>
+                        <label for="funFacts">Fun Facts:</label><br>
+                        <textarea id="funFacts" name="funFacts" rows="4" cols="50"></textarea><br>
+                        <input type="submit" value="Submit">
+                 </form>
+                </body>
             <!-- Add details about request parameters -->
         </section>
         <section id="responses">
             <h2>Response Formats</h2>
+            <head>
+                <title>State Fun Facts</title>
+                <script>
+                    function showFunFacts() {
+                        var state = document.getElementById('state').value;
+                        var funFacts;
+            
+                        switch(state.toLowerCase()) {
+                            case 'california':
+                                funFacts = [
+                                    'California is the most populous state in the U.S.',
+                                    'The Hollywood Bowl is the largest outdoor amphitheater in the U.S.',
+                                    'California is the birthplace of the Frisbee.'
+                                ];
+                                break;
+                            // Add more states here...
+                            default:
+                                funFacts = ['No fun facts available for this state.'];
+                        }
+            
+                        document.getElementById('funFacts').innerHTML = funFacts.join('<br>');
+                    }
+                </script>
+            </head>
             <!-- Add details about response formats -->
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Your Company</p>
+        <p>&copy; 2024 All ABout bAss</p>
     </footer>
 </body>
 </html>
