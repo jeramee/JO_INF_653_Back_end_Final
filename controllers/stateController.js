@@ -46,7 +46,7 @@ router.get('/states/:state', async (req, res) => {
   try {
     const stateData = await State.findOne({ code: { $regex: new RegExp(`^${state}$`, 'i') } });
     if (!stateData) {
-      return res.status(404).send('State not found');
+      return res.status(404).send('404 State Code not found');
     }
     res.json(stateData);
   } catch (error) {
@@ -246,6 +246,21 @@ router.delete('/states/:state/funfact', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Catch all for routes that do not exist
+router.use('*', (req, res) => {
+  // Check the client's accepted content type
+  if (req.accepts('text/html')) {
+    // If the client accepts "text/html", the response should be an HTML page
+    res.status(404).send('<h1>404 Not Found</h1>');
+  } else if (req.accepts('application/json')) {
+    // If the client accepts "application/json", the response should be a JSON object
+    res.status(404).json({ error: '404 Not Found' });
+  } else {
+    // If the client does not accept "text/html" or "application/json", send a plain text response
+    res.status(404).send('404 Not Found');
   }
 });
 
