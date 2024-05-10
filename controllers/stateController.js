@@ -80,33 +80,50 @@ router.get('/states/:state/funfact', async (req, res) => {
   }
 });
 
-// Add custom endpoints for state data
-// Get state capital by state code
 router.get('/states/:state/capital', async (req, res) => {
-  const { state } = req.params;
+  // Assign the value of req.params.state to a temporary variable
+  const stateCode = req.params.state;
 
   try {
-    const stateData = await State.findOne({ stateCode: state });
+    console.log('Received request to /states/:state/capital');
+    console.log('State code:', stateCode);
+
+    // Find the state data based on the state code
+    const stateData = await State.findOne({ code: { $regex: new RegExp(`^${stateCode}$`, 'i') } });
+    console.log('State Data:', stateData);
+
     if (!stateData) {
-      return res.status(404).send('State not found');
+      // If no state data is found, return a 404 response
+      console.log('State not found');
+      return res.status(404).json({ error: 'State not found' });
     }
-    res.json({ state: stateData.name, capital: stateData.capital });
+
+    // Return the state name and capital in the response
+    console.log('Capital:', stateData.capital_city);
+    console.log('State:', stateData.state);
+
+    // Extract the required data using the original field name
+    const extractedData = { state: stateData.state, capital: stateData.capital_city };
+    console.log('Extracted Data:', extractedData);
+
+    res.json(extractedData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 // Get state nickname by state code
 router.get('/states/:state/nickname', async (req, res) => {
-  const { state } = req.params;
+  // Assign the value of req.params.state to a temporary variable
+  const stateCode = req.params.state;
 
   try {
-    const stateData = await State.findOne({ code: state });
+    const stateData = await State.findOne({ code: { $regex: new RegExp(`^${stateCode}$`, 'i') } });
     if (!stateData) {
       return res.status(404).send('State not found');
     }
-    res.json({ state: stateData.name, nickname: stateData.nickname });
+    res.json({ state: stateData.state, nickname: stateData.nickname });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -115,14 +132,14 @@ router.get('/states/:state/nickname', async (req, res) => {
 
 // Get state population by state code
 router.get('/states/:state/population', async (req, res) => {
-  const { state } = req.params;
+  const stateCode = req.params.state;
 
   try {
-    const stateData = await State.findOne({ code: state });
+    const stateData = await State.findOne({ code: { $regex: new RegExp(`^${stateCode}$`, 'i') } });
     if (!stateData) {
       return res.status(404).send('State not found');
     }
-    res.json({ state: stateData.name, population: stateData.population });
+    res.json({ state: stateData.state, population: stateData.population });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -131,14 +148,14 @@ router.get('/states/:state/population', async (req, res) => {
 
 // Get state admission date by state code
 router.get('/states/:state/admission', async (req, res) => {
-  const { state } = req.params;
+  const stateCode = req.params.state;
 
   try {
-    const stateData = await State.findOne({ code: state });
+    const stateData = await State.findOne({ code: { $regex: new RegExp(`^${stateCode}$`, 'i') } });
     if (!stateData) {
       return res.status(404).send('State not found');
     }
-    res.json({ state: stateData.name, admitted: stateData.admissionDate });
+    res.json({ state: stateData.state, admitted: stateData.admission_date });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
